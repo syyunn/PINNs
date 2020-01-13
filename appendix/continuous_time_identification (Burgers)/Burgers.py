@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io
 from scipy.interpolate import griddata
-from plotting import newfig, savefig
+from Utilities.plotting import newfig, savefig
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.gridspec as gridspec
 import time
