@@ -110,6 +110,7 @@ class PhysicsInformedNN:
         return Y
 
     def net_u(self, x, t):
+        # u(t, x)
         u = self.neural_net(tf.concat([x, t], 1), self.weights, self.biases)
         return u
 
@@ -164,6 +165,7 @@ class PhysicsInformedNN:
 
 
 if __name__ == "__main__":
+    # f := ut + uux − (0.01/π)uxx
 
     nu = 0.01 / np.pi
 
