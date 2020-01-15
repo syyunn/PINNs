@@ -182,8 +182,8 @@ if __name__ == "__main__":
     u_star = Exact.flatten()[:, None]
 
     # Domain bounds
-    lb = X_star.min(0)
-    ub = X_star.max(0)
+    lb = X_star.min(axis=0)
+    ub = X_star.max(axis=0)
 
     ######################################################################
     ######################## Noiseles Data ###############################
