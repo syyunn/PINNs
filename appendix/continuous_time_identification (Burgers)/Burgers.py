@@ -220,13 +220,14 @@ if __name__ == "__main__":
     ######################## Noiseles Data ###############################
     ######################################################################
     noise = 0.0
+    experiment_name = "Burgers_Noiseless"
 
     idx = np.random.choice(X_star.shape[0], N_u, replace=False)  # sampling
     # N_u from the X_star
     X_u_train = X_star[idx, :]
     u_train = u_star[idx, :]
 
-    model = PhysicsInformedNN(X_u_train, u_train, layers, lb, ub)
+    model = PhysicsInformedNN(X_u_train, u_train, layers, lb, ub, experiment_name)
     model.train(0)
 
     u_pred, f_pred = model.predict(X_star)
@@ -249,25 +250,25 @@ if __name__ == "__main__":
     ######################################################################
     ########################### Noisy Data ###############################
     ######################################################################
-    noise = 0.01
-    u_train = u_train + noise * np.std(u_train) * np.random.randn(
-        u_train.shape[0], u_train.shape[1]
-    )
-
-    model = PhysicsInformedNN(X_u_train, u_train, layers, lb, ub)
-    model.train(10000)
-
-    u_pred, f_pred = model.predict(X_star)
-
-    lambda_1_value_noisy = model.sess.run(model.lambda_1)
-    lambda_2_value_noisy = model.sess.run(model.lambda_2)
-    lambda_2_value_noisy = np.exp(lambda_2_value_noisy)
-
-    error_lambda_1_noisy = np.abs(lambda_1_value_noisy - 1.0) * 100
-    error_lambda_2_noisy = np.abs(lambda_2_value_noisy - nu) / nu * 100
-
-    print("Error lambda_1: %f%%" % (error_lambda_1_noisy))
-    print("Error lambda_2: %f%%" % (error_lambda_2_noisy))
+    # noise = 0.01
+    # u_train = u_train + noise * np.std(u_train) * np.random.randn(
+    #     u_train.shape[0], u_train.shape[1]
+    # )
+    #
+    # model = PhysicsInformedNN(X_u_train, u_train, layers, lb, ub)
+    # model.train(10000)
+    #
+    # u_pred, f_pred = model.predict(X_star)
+    #
+    # lambda_1_value_noisy = model.sess.run(model.lambda_1)
+    # lambda_2_value_noisy = model.sess.run(model.lambda_2)
+    # lambda_2_value_noisy = np.exp(lambda_2_value_noisy)
+    #
+    # error_lambda_1_noisy = np.abs(lambda_1_value_noisy - 1.0) * 100
+    # error_lambda_2_noisy = np.abs(lambda_2_value_noisy - nu) / nu * 100
+    #
+    # print("Error lambda_1: %f%%" % (error_lambda_1_noisy))
+    # print("Error lambda_2: %f%%" % (error_lambda_2_noisy))
 
     ######################################################################
     ############################# Plotting ###############################
