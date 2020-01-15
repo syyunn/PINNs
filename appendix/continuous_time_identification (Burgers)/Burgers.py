@@ -176,7 +176,7 @@ class PhysicsInformedNN:
     def save_model(self):
         print("runs saving model")
         saver = tf.train.Saver()
-        saved_path = saver.save(self.sess, './my-model')
+        saved_path = saver.save(self.sess, './ckpt/model')
 
 
 if __name__ == "__main__":
