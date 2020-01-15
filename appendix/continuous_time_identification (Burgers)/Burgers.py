@@ -20,8 +20,8 @@ tf.set_random_seed(1234)
 
 class PhysicsInformedNN:
     # Initialize the class
-    def __init__(self, X, u, layers, lb, ub):
-
+    def __init__(self, X, u, layers, lb, ub, experiment_name):
+        self.experiment_name = experiment_name
         self.lb = lb
         self.ub = ub
 
@@ -134,11 +134,15 @@ class PhysicsInformedNN:
         return f
 
     def callback(self, loss, lambda_1, lambda_2):
+        # save-model during iteration
         print("Loss: %e, l1: %.5f, l2: %.5f" % (loss, lambda_1, np.exp(lambda_2)))
 
     def train(self, nIter):
         tf_dict = {self.x_tf: self.x, self.t_tf: self.t, self.u_tf: self.u}
         # feed placeholder (the location of graph operation) w/ train values.
+
+        # if True:
+        #     self.restore_model()
 
         start_time = time.time()
         for it in range(nIter):
@@ -165,6 +169,8 @@ class PhysicsInformedNN:
             loss_callback=self.callback,
         )
 
+        self.save_model()
+
     def predict(self, X_star):
         tf_dict = {self.x_tf: X_star[:, 0:1], self.t_tf: X_star[:, 1:2]}
 
@@ -176,7 +182,13 @@ class PhysicsInformedNN:
     def save_model(self):
         print("runs saving model")
         saver = tf.train.Saver()
-        saved_path = saver.save(self.sess, './ckpt/model')
+        saver.save(self.sess, './ckpt/' + self.experiment_name)  # this saves
+        # the model to given path by second arg
+
+    # def restore_model(self):
+    #     print("load model to session")
+    #     saver = tf.train.Saver()
+    #     saver.restore(self.sess, "./ckpt/" + self.experiment_name)
 
 
 if __name__ == "__main__":
