@@ -29,7 +29,7 @@ class PhysicsInformedNN:
         self.t = X[:, 1:2]
         self.u = u
 
-        self.layers = layers
+        # self.layers = layers
 
         # Initialize NNs
         self.weights, self.biases = self.initialize_NN(layers)
