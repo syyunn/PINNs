@@ -4,9 +4,7 @@
 
 import sys
 
-# import tensorflow as tf
-import tensorflow.compat.v1 as tf
-
+import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io
@@ -136,15 +134,11 @@ class PhysicsInformedNN:
         return f
 
     def callback(self, loss, lambda_1, lambda_2):
-        # save-model during iteration
         print("Loss: %e, l1: %.5f, l2: %.5f" % (loss, lambda_1, np.exp(lambda_2)))
 
     def train(self, nIter):
         tf_dict = {self.x_tf: self.x, self.t_tf: self.t, self.u_tf: self.u}
         # feed placeholder (the location of graph operation) w/ train values.
-
-        # if True:
-        #     self.restore_model()
 
         start_time = time.time()
         for it in range(nIter):
