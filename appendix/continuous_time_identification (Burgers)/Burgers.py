@@ -36,14 +36,20 @@ class PhysicsInformedNN:
 
         # tf placeholders and graph
         self.sess = tf.Session(
-            config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=True)
+            config=tf.ConfigProto(allow_soft_placement=True,  # to use the NN
+                                  # graph together with CPU
+                                  log_device_placement=True)
+            # https://stackoverflow.com/questions/44873273/what-do-the-options-in-configproto-like-allow-soft-placement-and-log-device-plac
         )
 
         # Initialize parameters
         self.lambda_1 = tf.Variable([0.0], dtype=tf.float32)
         self.lambda_2 = tf.Variable([-6.0], dtype=tf.float32)
 
-        self.x_tf = tf.placeholder(tf.float32, shape=[None, self.x.shape[1]])
+        self.x_tf = tf.placeholder(tf.float32, shape=[None, self.x.shape[
+            1]])  # placeholder is a (reserved) place f/ input val.
+        # None indicates that the first dimension corresponding to
+        # the batch size, can be of any size.
         self.t_tf = tf.placeholder(tf.float32, shape=[None, self.t.shape[1]])
         self.u_tf = tf.placeholder(tf.float32, shape=[None, self.u.shape[1]])
 
@@ -104,7 +110,11 @@ class PhysicsInformedNN:
             H = tf.tanh(tf.add(tf.matmul(H, W), b))
         W = weights[-1]
         b = biases[-1]
-        Y = tf.add(tf.matmul(H, W), b)
+        Y = tf.add(tf.matmul(H, W), b)  # to not to use the non-linear (in
+        # this case tanH at the end. We call this last layer as output
+        # layer(where layer almost-every-case refers to
+        # "non-linear and linear operation" in deep learning
+        # context)
         return Y
 
     def net_u(self, x, t):
@@ -128,6 +138,7 @@ class PhysicsInformedNN:
 
     def train(self, nIter):
         tf_dict = {self.x_tf: self.x, self.t_tf: self.t, self.u_tf: self.u}
+        # feed placeholder (the location of graph operation) w/ train values.
 
         start_time = time.time()
         for it in range(nIter):
@@ -136,7 +147,9 @@ class PhysicsInformedNN:
             # Print
             if it % 10 == 0:
                 elapsed = time.time() - start_time
-                loss_value = self.sess.run(self.loss, tf_dict)
+                loss_value = self.sess.run(self.loss, tf_dict)  # for the
+                # reason why we put self.sess.run, please refer to :
+                # https://stackoverflow.com/questions/33633370/how-to-print-the-value-of-a-tensor-object-in-tensorflow
                 lambda_1_value = self.sess.run(self.lambda_1)
                 lambda_2_value = np.exp(self.sess.run(self.lambda_2))
                 print(
@@ -196,7 +209,8 @@ if __name__ == "__main__":
     ######################################################################
     noise = 0.0
 
-    idx = np.random.choice(X_star.shape[0], N_u, replace=False)
+    idx = np.random.choice(X_star.shape[0], N_u, replace=False)  # sampling
+    # N_u from the X_star
     X_u_train = X_star[idx, :]
     u_train = u_star[idx, :]
 
