@@ -165,7 +165,7 @@ class PhysicsInformedNN:
 if __name__ == "__main__":
     # f := ut + uux − (0.01/π)uxx
 
-    nu = 0.01 / np.pi
+    nu = 0.01 / np.pi  # constant of second derivative term
 
     N_u = 2000
     layers = [2, 20, 20, 20, 20, 20, 20, 20, 20, 1]
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     X_star = np.hstack((X.flatten()[:, None], T.flatten()[:, None]))
     u_star = Exact.flatten()[:, None]
 
-    # Doman bounds
+    # Domain bounds
     lb = X_star.min(0)
     ub = X_star.max(0)
 
