@@ -161,6 +161,12 @@ class PhysicsInformedNN:
 
         return u_star, f_star
 
+    def visualize_nn(self):
+        with self.sess:
+            print("dxbghktld")
+            writer = tf.summary.FileWriter("output", self.sess.graph)
+            writer.close()
+
 
 if __name__ == "__main__":
     # f := ut + uux − (0.01/π)uxx
@@ -195,8 +201,8 @@ if __name__ == "__main__":
     u_train = u_star[idx, :]
 
     model = PhysicsInformedNN(X_u_train, u_train, layers, lb, ub)
+    model.visualize_nn()
     model.train(0)
-
     u_pred, f_pred = model.predict(X_star)
 
     error_u = np.linalg.norm(u_star - u_pred, 2) / np.linalg.norm(u_star, 2)
