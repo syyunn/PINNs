@@ -4,8 +4,6 @@
 
 import sys
 
-sys.path.insert(0, "../../Utilities/")
-
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
