@@ -166,13 +166,17 @@ class PhysicsInformedNN:
         )
 
     def predict(self, X_star):
-
         tf_dict = {self.x_tf: X_star[:, 0:1], self.t_tf: X_star[:, 1:2]}
 
         u_star = self.sess.run(self.u_pred, tf_dict)
         f_star = self.sess.run(self.f_pred, tf_dict)
 
         return u_star, f_star
+
+    def save_model(self):
+        print("runs saving model")
+        saver = tf.train.Saver()
+        saved_path = saver.save(self.sess, './my-model')
 
 
 if __name__ == "__main__":
