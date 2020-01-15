@@ -170,7 +170,13 @@ if __name__ == "__main__":
     N_u = 2000
     layers = [2, 20, 20, 20, 20, 20, 20, 20, 20, 1]
 
-    data = scipy.io.loadmat("../Data/burgers_shock.mat")
+    data = scipy.io.loadmat("../Data/burgers_shock.mat")  # x, t, usol where
+    # 256, 100, (256, 100) for each dim
+
+    # Just for understanding of ', None' numpy syntax #######
+    t_ = data["t"].flatten()
+    x_ = data["x"].flatten()
+    ################################
 
     t = data["t"].flatten()[:, None]
     x = data["x"].flatten()[:, None]
