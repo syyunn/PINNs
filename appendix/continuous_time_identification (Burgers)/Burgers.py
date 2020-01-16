@@ -120,7 +120,7 @@ class PhysicsInformedNN:
 
     def net_u(self, x, t):
         # u(t, x)
-        u = self.neural_net(tf.concat([x, t], 1), self.weights, self.biases)
+        u = self.neural_net(tf.concat([x, t], axis=1), self.weights, self.biases)
         return u
 
     def net_f(self, x, t):
@@ -256,25 +256,25 @@ if __name__ == "__main__":
     ######################################################################
     ########################### Noisy Data ###############################
     ######################################################################
-    # noise = 0.01
-    # u_train = u_train + noise * np.std(u_train) * np.random.randn(
-    #     u_train.shape[0], u_train.shape[1]
-    # )
-    #
-    # model = PhysicsInformedNN(X_u_train, u_train, layers, lb, ub)
-    # model.train(10000)
-    #
-    # u_pred, f_pred = model.predict(X_star)
-    #
-    # lambda_1_value_noisy = model.sess.run(model.lambda_1)
-    # lambda_2_value_noisy = model.sess.run(model.lambda_2)
-    # lambda_2_value_noisy = np.exp(lambda_2_value_noisy)
-    #
-    # error_lambda_1_noisy = np.abs(lambda_1_value_noisy - 1.0) * 100
-    # error_lambda_2_noisy = np.abs(lambda_2_value_noisy - nu) / nu * 100
-    #
-    # print("Error lambda_1: %f%%" % (error_lambda_1_noisy))
-    # print("Error lambda_2: %f%%" % (error_lambda_2_noisy))
+    noise = 0.01
+    u_train = u_train + noise * np.std(u_train) * np.random.randn(
+        u_train.shape[0], u_train.shape[1]
+    )
+
+    model = PhysicsInformedNN(X_u_train, u_train, layers, lb, ub)
+    model.train(10000)
+
+    u_pred, f_pred = model.predict(X_star)
+
+    lambda_1_value_noisy = model.sess.run(model.lambda_1)
+    lambda_2_value_noisy = model.sess.run(model.lambda_2)
+    lambda_2_value_noisy = np.exp(lambda_2_value_noisy)
+
+    error_lambda_1_noisy = np.abs(lambda_1_value_noisy - 1.0) * 100
+    error_lambda_2_noisy = np.abs(lambda_2_value_noisy - nu) / nu * 100
+
+    print("Error lambda_1: %f%%" % (error_lambda_1_noisy))
+    print("Error lambda_2: %f%%" % (error_lambda_2_noisy))
 
     ######################################################################
     ############################# Plotting ###############################
