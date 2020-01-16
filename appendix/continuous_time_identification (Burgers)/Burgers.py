@@ -3,6 +3,7 @@
 """
 
 import sys
+import pathlib
 
 import tensorflow as tf
 import numpy as np
@@ -177,9 +178,14 @@ class PhysicsInformedNN:
 
     def save_model(self):
         print("runs saving model")
+
+        save_dir = './ckpt/' + self.experiment_name
+        save_path = './ckpt/' + self.experiment_name + '/' + self.experiment_name
+
+        pathlib.Path(save_dir).mkdir(parents=True, exist_ok=True)
+
         saver = tf.train.Saver()
-        saver.save(self.sess, './ckpt/' + self.experiment_name)  # this saves
-        # the model to given path by second arg
+        saver.save(self.sess, save_path)
 
     # def restore_model(self):
     #     print("load model to session")
